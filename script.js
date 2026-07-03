@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const screens = {
+    parentIntro: document.getElementById('parentIntroScreen'),
     start: document.getElementById('startScreen'),
     nameEntry: document.getElementById('nameEntryScreen'),
     envelope: document.getElementById('envelopeScreen'),
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const audios = {
     music: document.getElementById('musicAudio'),
+    finalMusic: document.getElementById('finalMusicAudio'),
     open: document.getElementById('openAudio'),
     rise: document.getElementById('riseAudio'),
     chime: document.getElementById('chimeAudio'),
@@ -77,6 +79,26 @@ document.addEventListener('DOMContentLoaded', () => {
   function duckMusic() { audios.music.volume = MUSIC_DUCK_VOL; }
   function unduckMusic() { audios.music.volume = MUSIC_BASE_VOL; }
 
+  // fondu doux entre deux pistes (utilise pour la musique speciale finale)
+  function fadeAudio(audio, from, to, durationMs, steps = 20) {
+    audio.volume = from;
+    const stepMs = durationMs / steps;
+    const delta = (to - from) / steps;
+    for (let i = 1; i <= steps; i++) {
+      after(Math.round(stepMs * i), () => {
+        audio.volume = Math.max(0, Math.min(1, from + delta * i));
+      });
+    }
+  }
+  function switchToFinalMusic() {
+    fadeAudio(audios.music, audios.music.volume, 0, 1500);
+    after(1500, () => { audios.music.pause(); });
+    audios.finalMusic.volume = 0;
+    audios.finalMusic.currentTime = 0;
+    audios.finalMusic.play().catch(() => {});
+    fadeAudio(audios.finalMusic, 0, 0.35, 1800);
+  }
+
   let muted = false;
 
   function speak(text) {
@@ -116,12 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
     start: "Coucou toi ! Une aventure t'attend. Touche l'écran pour commencer !",
     namePrompt: "Avant de partir, dis-moi... comment tu t'appelles ?",
     envelopeHint: (n) => `Maintenant, touche l'enveloppe pour l'ouvrir, ${n} !`,
-    takeoff: (n) => `Accroche-toi bien, ${n} ! On s'envole pour une super aventure !`,
+    adventureInvite: (n) => `Tu es invité, ou invitée, à une grande aventure, ${n} ! On y va !`,
+    takeoff: (n) => `Accroche-toi bien, ${n} ! On décolle !`,
     gameIntro: "Ouh là là, plein de ballons rigolos ! Attrape-les tous !",
     gameBravo: "Youpi, bravo ! Tu as tout attrapé ! En route !",
     flight: "On vole tout là-haut dans les nuages, hisse et ho !",
     peek: "Chut... on approche d'un endroit très très spécial...",
-    arrival: "Tadaaa ! C'est Eliel ! Il va bientôt fêter son premier anniversaire !",
+    giftPrompt: "Touche le cadeau pour l'ouvrir !",
+    arrival: "Tadaaa ! C'est Eliel ! Tu es invité, ou invitée, à fêter son premier anniversaire !",
     candleIntro: "Entraîne-toi à souffler la flamme pour le jour J ! Touche-la plein de fois !",
     candleBravo: "Hourra ! Tu es prêt, ou prête, pour le grand jour !",
     funfactIntro: "Avant de continuer, viens découvrir un petit secret sur Eliel...",
@@ -290,7 +314,38 @@ document.addEventListener('DOMContentLoaded', () => {
   candleFlame.addEventListener('click', tapCandle);
   candleFlame.addEventListener('touchstart', (e) => { e.preventDefault(); tapCandle(); }, { passive: false });
 
+  // ================= CADEAU MYSTERE : A OUVRIR SOI-MEME =================
+  const giftBox = document.querySelector('.gift-box');
+  const peekHint = document.getElementById('peekHint');
+  let resolveGiftOpen = null;
+  let giftOpened = false;
+  function waitForGiftOpen() { return new Promise((res) => { resolveGiftOpen = res; }); }
+  function showGiftHint() {
+    peekHint.classList.remove('hidden');
+    giftBox.classList.add('ready');
+  }
+  function openGift() {
+    if (!resolveGiftOpen || giftOpened) return;
+    giftOpened = true;
+    giftBox.classList.remove('ready');
+    giftBox.classList.add('opened');
+    peekHint.classList.add('hidden');
+    playSafe(audios.chime, { volume: 0.55 });
+    if (navigator.vibrate) navigator.vibrate([10, 20, 10]);
+    const r = resolveGiftOpen;
+    resolveGiftOpen = null;
+    after(650, r);
+  }
+  giftBox.addEventListener('click', openGift);
+  giftBox.addEventListener('touchstart', (e) => { e.preventDefault(); openGift(); }, { passive: false });
+
   // ================= ECRAN DE DEMARRAGE =================
+  // ================= ECRAN INTRO PARENTS =================
+  const parentIntroBtn = document.getElementById('parentIntroBtn');
+  parentIntroBtn.addEventListener('click', () => {
+    goTo('start');
+  });
+
   const startScreen = document.getElementById('startScreen');
   let started = false;
   function startExperience() {
@@ -337,6 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
     playSafe(audios.open, { volume: 0.8 });
     if (navigator.vibrate) navigator.vibrate(30);
     envelope.classList.add('opened');
+    after(700, () => burstConfettiOnce(document.getElementById('bgConfetti'), 26));
     after(900, () => { runSequence(); });
   }
   envelope.addEventListener('click', openEnvelope);
@@ -355,6 +411,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hasSpeech) window.speechSynthesis.cancel();
     mascot.classList.remove('hidden');
     tryStartMusic();
+
+    await speak(TEXTS.adventureInvite(guestName));
+    await wait(300);
 
     goTo('takeoff');
     hotAirBalloon.classList.remove('rising');
@@ -377,11 +436,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     goTo('peek');
     await speak(TEXTS.peek);
-    await wait(700);
+    await wait(400);
+    await speak(TEXTS.giftPrompt);
+    showGiftHint();
+    await waitForGiftOpen();
 
     goTo('name');
     playSafe(audios.chime, { volume: 0.5 });
-    await wait(700);
+    await wait(500);
     burstConfettiOnce(nameBurst, 34);
     playSafe(audios.pop, { volume: 0.5 });
     if (navigator.vibrate) navigator.vibrate([10, 30, 10, 30, 10]);
@@ -414,6 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
     await wait(400);
 
     goTo('invite');
+    switchToFinalMusic();
     startCountdown();
     after(400, () => mascot.classList.add('hidden'));
   }
@@ -424,12 +487,18 @@ document.addEventListener('DOMContentLoaded', () => {
     hotAirBalloon.classList.remove('rising');
     nameBurst.innerHTML = '';
     ['detail1','detail2','detail3'].forEach(id => document.getElementById(id).classList.remove('shown'));
+    giftBox.classList.remove('opened', 'ready');
+    peekHint.classList.add('hidden');
+    giftOpened = false;
+    audios.finalMusic.pause();
+    audios.finalMusic.currentTime = 0;
     runSequence();
   });
 
   soundToggle.addEventListener('click', () => {
     muted = !muted;
     audios.music.muted = muted;
+    audios.finalMusic.muted = muted;
     allSfx.forEach(a => a.muted = muted);
     if (muted && hasSpeech) window.speechSynthesis.cancel();
     iconOn.style.display = muted ? 'none' : 'block';

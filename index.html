@@ -27,8 +27,24 @@
   <div class="mascot-arm right"></div>
 </div>
 
+<!-- ===== ECRAN -2 : MOT POUR LES PARENTS ===== -->
+<section id="parentIntroScreen" class="screen active">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <div class="parent-intro-wrap">
+    <div class="parent-intro-icon">👋</div>
+    <p class="parent-intro-title">Un mot pour les parents</p>
+    <p class="parent-intro-body">
+      Cette invitation est une petite aventure pensée pour votre enfant.
+      Installez-vous à ses côtés, donnez-lui votre téléphone, et laissez-le
+      ou la découvrir la surprise à son rythme (vous pourrez l'aider à
+      écrire son prénom au début).
+    </p>
+    <button id="parentIntroBtn" class="parent-intro-btn">C'est parti ! 🎈</button>
+  </div>
+</section>
+
 <!-- ===== ECRAN -1 : DEMARRAGE (debloque le son + accueil) ===== -->
-<section id="startScreen" class="screen active">
+<section id="startScreen" class="screen">
   <div class="bg-dots" aria-hidden="true"></div>
   <div class="start-wrap">
     <div class="start-balloon-emoji">🎈</div>
@@ -181,6 +197,7 @@
     <div class="gift-bow"></div>
   </div>
   <p class="peek-text">Chut... quelque chose de magique arrive ! ✨</p>
+  <p class="peek-hint hidden" id="peekHint">👉 Touche le cadeau pour l'ouvrir !</p>
 </section>
 
 <!-- ===== ECRAN 6 : REVELATION D'ELIEL ===== -->
@@ -336,6 +353,7 @@
 </section>
 
 <audio id="musicAudio" src="assets/music.mp3" loop preload="auto"></audio>
+<audio id="finalMusicAudio" src="assets/music_final.mp3" loop preload="auto"></audio>
 <audio id="openAudio" src="assets/open.mp3" preload="auto"></audio>
 <audio id="riseAudio" src="assets/rise.mp3" preload="auto"></audio>
 <audio id="chimeAudio" src="assets/chime.mp3" preload="auto"></audio>

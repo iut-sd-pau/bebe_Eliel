@@ -1271,6 +1271,37 @@ html, body {
   text-align: center;
   padding: 0 30px;
 }
+.peek-hint {
+  position: relative;
+  z-index: 2;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+  animation: floatText 1.4s ease-in-out infinite;
+}
+.gift-box {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.gift-box.ready {
+  animation: giftWiggle 0.9s ease-in-out infinite, giftGlow 1.4s ease-in-out infinite;
+}
+@keyframes giftGlow {
+  0%, 100% { filter: drop-shadow(0 0 0px rgba(143,184,217,0)); }
+  50% { filter: drop-shadow(0 0 16px rgba(143,184,217,0.7)); }
+}
+.gift-box.opened {
+  animation: giftOpenPop 0.6s ease forwards;
+  pointer-events: none;
+}
+@keyframes giftOpenPop {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  40% { transform: scale(1.25) rotate(-4deg); opacity: 1; }
+  100% { transform: scale(0.3) rotate(8deg); opacity: 0; }
+}
+
 
 /* ================= SCENE REVELATION - remplissage ================= */
 #nameScreen {
@@ -1513,3 +1544,48 @@ html, body {
   0% { transform: scale(0.6); opacity: 0.5; }
   100% { transform: scale(1.8); opacity: 0; }
 }
+
+/* ================= ECRAN INTRO PARENTS ================= */
+#parentIntroScreen {
+  flex-direction: column;
+  padding: 30px;
+}
+.parent-intro-wrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 360px;
+}
+.parent-intro-icon {
+  font-size: 46px;
+  margin-bottom: 14px;
+}
+.parent-intro-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 21px;
+  color: var(--brown-dark);
+  margin-bottom: 14px;
+}
+.parent-intro-body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--brown-soft);
+  margin-bottom: 26px;
+}
+.parent-intro-btn {
+  padding: 14px 28px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(143,184,217,0.4);
+}
+.parent-intro-btn:active { transform: scale(0.97); }
