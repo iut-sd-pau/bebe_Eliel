@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Eliel fête ses 1 an !</title>
+<meta name="description" content="Invitation au premier anniversaire d'Eliel - 18 juillet, Karukera, Moanda, Gabon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="bgConfetti" class="confetti-layer" aria-hidden="true"></div>
+
+<!-- ===== PERSONNAGE COMPAGNON (ourson qui suit l'histoire) ===== -->
+<div id="mascot" class="mascot hidden" aria-hidden="true">
+  <div class="mascot-ear left"></div>
+  <div class="mascot-ear right"></div>
+  <div class="mascot-head">
+    <div class="mascot-eye left"></div>
+    <div class="mascot-eye right"></div>
+    <div class="mascot-muzzle"></div>
+    <div class="mascot-nose"></div>
+  </div>
+  <div class="mascot-arm left"></div>
+  <div class="mascot-arm right"></div>
+</div>
+
+<!-- ===== ECRAN -1 : DEMARRAGE (debloque le son + accueil) ===== -->
+<section id="startScreen" class="screen active">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <div class="start-wrap">
+    <div class="start-balloon-emoji">🎈</div>
+    <p class="start-title">Une aventure t'attend !</p>
+    <p class="start-sub">Touche l'écran pour commencer</p>
+    <div class="start-pulse"></div>
+  </div>
+</section>
+
+<!-- ===== ECRAN 0 : MYSTERE / SAISIE DU PRENOM ===== -->
+<section id="nameEntryScreen" class="screen">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <div class="entry-wrap">
+    <div class="entry-decor">
+      <div class="balloon-mini entry-b1"></div>
+      <div class="balloon-mini entry-b2"></div>
+      <div class="balloon-mini entry-b3"></div>
+    </div>
+    <p class="entry-eyebrow">Psst... un petit mystère t'attend</p>
+    <h2 class="entry-title">Comment tu t'appelles ?</h2>
+    <form id="nameForm" class="entry-form">
+      <input type="text" id="nameInput" class="entry-input" placeholder="Ton prénom" maxlength="20" autocomplete="off" required>
+      <button type="submit" class="entry-btn">C'est parti ! 🎈</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== ECRAN 1 : ENVELOPPE ===== -->
+<section id="envelopeScreen" class="screen">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <div class="envelope-wrap">
+    <p class="tap-hint" id="tapHintText">Touche l'enveloppe</p>
+    <div id="envelope" class="envelope">
+      <div class="env-shadow"></div>
+      <div class="env-back"></div>
+      <div class="env-letter">
+        <div class="letter-bear">
+          <div class="balloon-mini b-mini-1"></div>
+          <div class="balloon-mini b-mini-2"></div>
+          <div class="balloon-mini b-mini-3"></div>
+          <div class="basket"></div>
+          <div class="bear-ear left"></div>
+          <div class="bear-ear right"></div>
+          <div class="bear-head">
+            <div class="bear-eye left"></div>
+            <div class="bear-eye right"></div>
+            <div class="bear-muzzle"></div>
+            <div class="bear-nose"></div>
+          </div>
+        </div>
+        <p class="letter-label" id="letterLabelText">Tu es invité(e) !</p>
+      </div>
+      <div class="env-flap"></div>
+      <div class="env-seal">🎉</div>
+    </div>
+    <p class="tap-sub">pssst, touche-moi !</p>
+  </div>
+</section>
+
+<!-- ===== ECRAN 2 : DECOLLAGE ===== -->
+<section id="takeoffScreen" class="screen">
+  <div class="sky">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="cloud c4"></div>
+    <div class="sun"><div class="sun-face"></div></div>
+    <div class="star ts1"></div>
+    <div class="star ts2"></div>
+  </div>
+  <div class="hot-air-balloon">
+    <div class="hab-balloon">
+      <div class="hab-panel p1"></div>
+      <div class="hab-panel p2"></div>
+      <div class="hab-panel p3"></div>
+    </div>
+    <div class="hab-lines"></div>
+    <div class="hab-basket">
+      <div class="hab-bear-ear left"></div>
+      <div class="hab-bear-ear right"></div>
+      <div class="hab-bear-head">
+        <div class="hab-bear-eye left"></div>
+        <div class="hab-bear-eye right"></div>
+        <div class="hab-bear-muzzle"></div>
+      </div>
+    </div>
+  </div>
+  <p class="takeoff-text" id="takeoffText">On décolle...</p>
+</section>
+
+<!-- ===== ECRAN 3 : MINI-JEU ATTRAPE LES BALLONS ===== -->
+<section id="gameScreen" class="screen">
+  <div class="game-sky">
+    <div class="cloud gc1"></div>
+    <div class="cloud gc2"></div>
+    <div class="star gs1"></div>
+    <div class="star gs2"></div>
+    <div class="star gs3"></div>
+  </div>
+  <p class="game-heading" id="gameHeading">Attrape tous les ballons ! 🎈</p>
+  <div class="game-score" id="gameScore">⭐ 0 / 6</div>
+  <div class="game-field" id="gameField"></div>
+</section>
+
+<!-- ===== ECRAN 4 : VOL AU DESSUS DES NUAGES ===== -->
+<section id="flightScreen" class="screen">
+  <div class="sky sky-flight">
+    <div class="cloud fc1"></div>
+    <div class="cloud fc2"></div>
+    <div class="cloud fc3"></div>
+    <div class="cloud fc4"></div>
+    <div class="cloud fc5"></div>
+    <div class="star s1"></div>
+    <div class="star s2"></div>
+    <div class="star s3"></div>
+    <div class="star s4"></div>
+    <div class="star s5"></div>
+    <div class="bird bird1"></div>
+    <div class="bird bird2"></div>
+  </div>
+  <div class="flying-balloon">
+    <div class="hab-balloon small">
+      <div class="hab-panel p1"></div>
+      <div class="hab-panel p2"></div>
+      <div class="hab-panel p3"></div>
+    </div>
+    <div class="hab-lines"></div>
+    <div class="hab-basket small"></div>
+  </div>
+  <p class="flight-text">On vole tout là-haut ! 🌤️</p>
+  <div class="route-dots">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</section>
+
+<!-- ===== ECRAN 5 : TEASER MYSTERE ===== -->
+<section id="peekScreen" class="screen">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <div class="peek-decor">
+    <div class="balloon-mini peek-b1"></div>
+    <div class="balloon-mini peek-b2"></div>
+    <div class="balloon-mini peek-b3"></div>
+    <div class="balloon-mini peek-b4"></div>
+  </div>
+  <div class="gift-box">
+    <div class="gift-lid"></div>
+    <div class="gift-body"></div>
+    <div class="gift-ribbon-v"></div>
+    <div class="gift-ribbon-h"></div>
+    <div class="gift-bow"></div>
+  </div>
+  <p class="peek-text">Chut... quelque chose de magique arrive ! ✨</p>
+</section>
+
+<!-- ===== ECRAN 6 : REVELATION D'ELIEL ===== -->
+<section id="nameScreen" class="screen">
+  <div class="arch-shape">
+    <p class="arch-text">C'est<br>Eliel !</p>
+  </div>
+  <div class="balloons name-balloons" aria-hidden="true">
+    <div class="balloon nb1"></div>
+    <div class="balloon nb2"></div>
+    <div class="balloon nb3"></div>
+    <div class="balloon nb4"></div>
+  </div>
+  <div class="name-burst" id="nameBurst"></div>
+</section>
+
+<!-- ===== ECRAN 7 : MINI-JEU SOUFFLE LA BOUGIE ===== -->
+<section id="candleScreen" class="screen">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <p class="candle-heading" id="candleHeading">Entraîne-toi à souffler !</p>
+  <div class="cake-wrap">
+    <div class="candle-flame" id="candleFlame"></div>
+    <div class="candle-stick"></div>
+    <div class="cake-top"></div>
+    <div class="cake-drip d1"></div>
+    <div class="cake-drip d2"></div>
+    <div class="cake-drip d3"></div>
+    <div class="cake-body"></div>
+    <div class="cake-plate"></div>
+  </div>
+  <p class="candle-hint" id="candleHint">Touche la flamme plein de fois !</p>
+</section>
+
+<!-- ===== ECRAN 8 : ELIEL ADORE... ===== -->
+<section id="funfactScreen" class="screen">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <p class="funfact-heading">Eliel adore...</p>
+  <div class="funfact-grid">
+    <div class="funfact-card fc-a">
+      <div class="funfact-icon">😄</div>
+      <p>Rigoler</p>
+    </div>
+    <div class="funfact-card fc-b">
+      <div class="funfact-icon">😘</div>
+      <p>Faire des bisous</p>
+    </div>
+    <div class="funfact-card fc-c">
+      <div class="funfact-icon">👏</div>
+      <p>Taper des mains</p>
+    </div>
+    <div class="funfact-card fc-d">
+      <div class="funfact-icon">🧸</div>
+      <p>Son doudou ours</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ECRAN 9 : INFOS POUR LES GRANDS ===== -->
+<section id="detailsScreen" class="screen">
+  <div class="bg-dots" aria-hidden="true"></div>
+  <p class="details-super">👨‍👩‍👧 Message pour les parents</p>
+  <p class="details-heading">Les détails de la fête</p>
+  <div class="details-stack">
+    <div class="detail-item" id="detail1">
+      <div class="card-icon big">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <p class="detail-top">Samedi 18 juillet</p>
+      <p class="detail-bottom">Brunch dès 12h00 - né le 17, fêté le 18 !</p>
+    </div>
+    <div class="detail-item" id="detail2">
+      <div class="card-icon big">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <p class="detail-top">Karukera</p>
+      <p class="detail-bottom">Moanda, Gabon</p>
+    </div>
+    <div class="detail-item" id="detail3">
+      <div class="card-icon big">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.4 14.5 16 10 20.4 5.5a6 6 0 0 0-8.49 8.49L5 21h4l6.91-6.91a6 6 0 0 0 4.49-1.09Z"/></svg>
+      </div>
+      <p class="detail-top">Dress code</p>
+      <p class="detail-bottom">Bleu ciel, beige et crème</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ECRAN 10 : INVITATION FINALE ===== -->
+<section id="inviteScreen" class="screen">
+
+  <div class="balloons" aria-hidden="true">
+    <div class="balloon b1"></div>
+    <div class="balloon b2"></div>
+    <div class="balloon b3"></div>
+    <div class="balloon b4"></div>
+    <div class="balloon b5"></div>
+  </div>
+
+  <button id="soundToggle" class="sound-toggle" aria-label="Couper le son">
+    <svg id="iconSoundOn" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M16 8a5 5 0 0 1 0 8"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+    <svg id="iconSoundOff" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><line x1="17" y1="9" x2="23" y2="15"/><line x1="23" y1="9" x2="17" y2="15"/></svg>
+  </button>
+
+  <div class="content">
+    <div class="reveal photo-wrap" style="--d:0.05s">
+      <div class="photo-ring">
+        <img src="assets/eliel.jpg" alt="Eliel" class="photo">
+      </div>
+    </div>
+
+    <p class="reveal eyebrow" style="--d:0.3s">Joyeux 1er anniversaire</p>
+    <h1 class="reveal title" style="--d:0.45s">Eliel</h1>
+    <p class="reveal subtitle" style="--d:0.6s">s'envole pour sa première année</p>
+
+    <div class="reveal card" style="--d:0.8s">
+      <div class="card-row">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="card-text">
+          <p class="card-top">Samedi 18 juillet</p>
+          <p class="card-bottom">Brunch des 12h00</p>
+        </div>
+      </div>
+      <div class="card-row">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="card-text">
+          <p class="card-top">Karukera</p>
+          <p class="card-bottom">Moanda, Gabon</p>
+        </div>
+      </div>
+      <div class="card-row">
+        <div class="card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.4 14.5 16 10 20.4 5.5a6 6 0 0 0-8.49 8.49L5 21h4l6.91-6.91a6 6 0 0 0 4.49-1.09Z"/></svg>
+        </div>
+        <div class="card-text">
+          <p class="card-top">Dress code</p>
+          <p class="card-bottom">Bleu ciel, beige et crème</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal footer-msg" id="footerMsgText" style="--d:1.1s">Eliel est né le 17 juillet, venez fêter ça avec nous le 18 !</p>
+
+    <div class="reveal countdown" style="--d:1.3s" id="countdown"></div>
+
+    <button class="reveal replay-btn" style="--d:1.5s" id="replayBtn">Revoir l'aventure</button>
+  </div>
+
+  <div class="confetti-layer" id="inviteConfetti" aria-hidden="true"></div>
+</section>
+
+<audio id="musicAudio" src="assets/music.mp3" loop preload="auto"></audio>
+<audio id="openAudio" src="assets/open.mp3" preload="auto"></audio>
+<audio id="riseAudio" src="assets/rise.mp3" preload="auto"></audio>
+<audio id="chimeAudio" src="assets/chime.mp3" preload="auto"></audio>
+<audio id="popAudio" src="assets/pop.mp3" preload="auto"></audio>
+<audio id="giggleAudio" src="assets/giggle.mp3" preload="auto"></audio>
+<audio id="balloonpopAudio" src="assets/balloonpop.mp3" preload="auto"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
